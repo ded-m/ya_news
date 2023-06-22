@@ -6,7 +6,7 @@ from news.models import News
 
 
 # Создаём тестовый класс с произвольным названием, наследуем его от TestCase.
-@skip()
+@skip('Пример теста')
 class TestNews(TestCase):
 
     # В методе класса setUpTestData создаём тестовые объекты.
