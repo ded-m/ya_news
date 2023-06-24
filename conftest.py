@@ -5,6 +5,7 @@ from django.conf import settings
 from news.models import News, Comment
 from django.urls import reverse
 
+
 @pytest.fixture
 # Используем встроенную фикстуру для модели пользователей django_user_model.
 def author(django_user_model):

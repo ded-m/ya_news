@@ -109,7 +109,7 @@ class TestCommentEditDelete(TestCase):
         cls.delete_url = reverse('news:delete', args=(cls.comment.id,))  
         # Формируем данные для POST-запроса по обновлению комментария.
         cls.form_data = {'text': cls.NEW_COMMENT_TEXT}
-    
+
     def test_author_can_delete_comment(self):
         # От имени автора комментария отправляем DELETE-запрос на удаление.
         response = self.author_client.delete(self.delete_url)
@@ -120,7 +120,7 @@ class TestCommentEditDelete(TestCase):
         comments_count = Comment.objects.count()
         # Ожидаем ноль комментариев в системе.
         self.assertEqual(comments_count, 0)
-    
+
     def test_user_cant_delete_comment_of_another_user(self):
         # Выполняем запрос на удаление от пользователя-читателя.
         response = self.reader_client.delete(self.delete_url)
