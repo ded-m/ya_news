@@ -1,8 +1,9 @@
 import pytest
 from datetime import datetime, timedelta
+from django.utils import timezone
 from django.conf import settings
 from news.models import News, Comment
-
+from django.urls import reverse
 
 @pytest.fixture
 # Используем встроенную фикстуру для модели пользователей django_user_model.
@@ -61,3 +62,24 @@ def all_news():
         ]
     News.objects.bulk_create(all_news)
     return all_news
+
+
+@pytest.fixture
+def detail_url(news, author):
+    # Сохраняем в переменную адрес страницы с новостью:
+    detail_url = reverse('news:detail', args=(news.id,))
+    # Запоминаем текущее время:
+    now = timezone.now()
+    # Создаём комментарии в цикле.
+    for index in range(2):
+        # Создаём объект и записываем его в переменную.
+        comment = Comment.objects.create(  # Создаём объект комментария.
+            news=news,
+            text='Текст комментария',
+            author=author,
+        )
+        # Сразу после создания меняем время создания комментария.
+        comment.created = now + timedelta(days=index)
+        # И сохраняем эти изменения.
+        comment.save()
+    return detail_url
